@@ -33,6 +33,7 @@ include("database.php");
       <form action="logout.php" method="get">
         <button type="submit" name="logout">Logout</button>
       </form>
+      <a href="leaderboard.php"><button type="submit" name="leaderboard">View leaderboard</button></a>
     </div>
     <div id="guess"></div>
     <div class="lives-container">

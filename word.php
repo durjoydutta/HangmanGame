@@ -21,11 +21,14 @@ foreach ($words as $word) {
     if ($length >= 4 && $length <= 10) {
         $word = mysqli_real_escape_string($con, $word);
         $query = "INSERT INTO words (word) VALUES ('$word')";
-        mysqli_query($con, $query);
+        try {
+            $insert_query = mysqli_query($con, $query);
+            if ($insert_query) echo "$word inserted successfully";
+        } catch (mysqli_sql_exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
 
-echo "Words have been successfully stored in the database.";
 
 mysqli_close($con);
-?>
