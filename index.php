@@ -1,6 +1,11 @@
 <?php
 session_start();
-if (!$_SESSION["id"]) header("Location: login.php");
+if (!isset($_SESSION["id"])) {
+  header("Location: login.php");
+  exit();
+}
+
+include("database.php");
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +27,12 @@ if (!$_SESSION["id"]) header("Location: login.php");
     <div class="title-container">
       <h2>Hangman Game</h2>
       <h3>by DDC</h3>
+    </div>
+    <div class="profile">
+      <?php if ($_SESSION["username"]) echo explode(" ", trim($_SESSION["username"]))[0] ?>
+      <form action="logout.php" method="get">
+        <button type="submit" name="logout">Logout</button>
+      </form>
     </div>
     <div id="guess"></div>
     <div class="lives-container">
