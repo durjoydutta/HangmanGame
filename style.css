@@ -1,0 +1,158 @@
+body {
+  background-color: #000;
+  color: #0f0;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  line-height: 1.5;
+}
+
+.game-container {
+  text-align: center;
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  border: 4px solid #0f0;
+  box-shadow: 0 0 10px #0f0;
+  border-radius: 10px;
+}
+
+#guess {
+  font-size: 2.5em;
+  margin: 20px 0;
+  letter-spacing: 5px;
+}
+
+#attempts {
+  margin: 15px 0;
+}
+
+.lives-container {
+  margin: 20px 0;
+}
+
+.heart {
+  color: #ff0000;
+  font-size: 24px;
+  margin: 0 5px;
+}
+
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 5px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.key {
+  background-color: #1a1a1a;
+  border: 2px solid #0f0;
+  color: #0f0;
+  padding: 10px;
+  cursor: pointer;
+  font-family: "Press Start 2P", monospace;
+  transition: all 0.2s;
+}
+
+.key:hover {
+  background-color: #0f0;
+  color: #000;
+}
+
+.key.used {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[type="button"] {
+  background-color: #0f0;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  font-family: "Press Start 2P", monospace;
+  cursor: pointer;
+  margin: 10px;
+}
+
+input[type="button"]:hover {
+  background-color: #0a0;
+}
+
+#letterInput {
+  background-color: #000;
+  border: 2px solid #0f0;
+  color: #0f0;
+  padding: 10px;
+  font-family: "Press Start 2P", monospace;
+  text-align: center;
+  margin: 10px;
+}
+
+#avgScore {
+  margin: 20px 0;
+  font-size: 0.8em;
+  color: #0f0;
+}
+
+.title-container {
+  margin-bottom: 30px;
+}
+
+.title-container h2 {
+  margin: 0;
+  font-size: 2.5em;
+  color: #0f0;
+}
+
+.title-container h3 {
+  margin: 5px 0 0 0;
+  font-size: 1em;
+  color: #0a0;
+}
+
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 5px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.key {
+  background-color: #1a1a1a;
+  border: 2px solid #0f0;
+  color: #0f0;
+  padding: 10px;
+  cursor: pointer;
+  font-family: "Press Start 2P", monospace;
+  transition: all 0.2s;
+}
+
+.key:hover:not(.correct):not(.wrong) {
+  background-color: #0f0;
+  color: #000;
+}
+
+.key.correct {
+  background-color: #008000;
+  color: #fff;
+  border-color: #008000;
+  cursor: not-allowed;
+}
+
+.key.wrong {
+  background-color: #800000;
+  color: #fff;
+  border-color: #800000;
+  cursor: not-allowed;
+}
+
+@keyframes winPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  .winner {
+    display: inline-block;
+    animation: winPulse 0.5s ease-in-out;
+  }
