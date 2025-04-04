@@ -1,8 +1,9 @@
+DROP DATABASE IF EXISTS hangman_game;
 CREATE DATABASE hangman_game;
 USE hangman_game;
 
 CREATE TABLE users (
-    id CHAR(36) NOT NULL PRIMARY KEY, 
+    id VARCHAR(36) NOT NULL PRIMARY KEY, 
     username VARCHAR(10) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'player') DEFAULT 'player',
@@ -17,13 +18,13 @@ CREATE TABLE words (
 
 CREATE TABLE game (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id CHAR(36) NOT NULL,
+    user_id VARCHAR(36) NOT NULL,
     word_id INT NOT NULL,
     score INT NOT NULL CHECK (score >= 0), 
     status ENUM('won', 'lost') NOT NULL,
     played_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE SET NULL
+    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
 );
 
 -- View for Leaderboard
