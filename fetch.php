@@ -18,3 +18,4 @@ while ($row = mysqli_fetch_assoc($result)) {
 echo json_encode($words);
 
 mysqli_close($con);
+?>
