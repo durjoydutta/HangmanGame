@@ -1,15 +1,35 @@
-let words = [
-  "apple",
-  "banana",
-  "cherry",
-  "date",
-  "elderberry",
-  "fig",
-  "grape",
-  "honeydew",
-  "kiwi",
-  "lemon",
-];
+let words = [];
+
+async function fetchWords(k) {
+  try {
+    const response = await fetch(`fetch.php?k=${k}`);
+    const newWords = await response.json();
+    words = words.concat(newWords);
+  } catch (error) {
+    console.error("Error fetching words:", error);
+  }
+}
+
+async function startNewGame() {
+  if (words.length <= 1) {
+    await fetchWords(5 - words.length);
+  }
+
+  word = words.pop();
+  if (!word) {
+    alert("No words available. Please try again later.");
+    return;
+  }
+
+  guess = "_".repeat(word.length);
+  lives = 10;
+
+  const keyboard = document.getElementById("keyboard");
+  keyboard.style.display = "grid";
+  createKeyboard();
+  updateDisplay();
+}
+
 let word;
 let guess;
 let lives;
@@ -24,7 +44,7 @@ function createKeyboard() {
   letters.forEach((letter) => {
     const button = document.createElement("button");
     button.className = "key";
-    button.setAttribute("data-letter", letter); // Add data attribute for easier selection
+    button.setAttribute("data-letter", letter);
     button.textContent = letter;
     button.onclick = () => handleKeyClick(letter);
     keyboard.appendChild(button);
@@ -64,56 +84,47 @@ function updateDisplay() {
   document.getElementById("lives").innerHTML = heartsDisplay;
 }
 
-function getWord() {
-  word = words[Math.floor(Math.random() * words.length)];
-  guess = "_".repeat(word.length);
-  lives = 10;
-
-  const keyboard = document.getElementById("keyboard");
-  keyboard.style.display = "grid";
-  createKeyboard();
-  updateDisplay();
-}
-
 function checkGameStatus() {
-    if (lives === 0) {
-      // Show all remaining letters in red
-      const remainingLetters = word
-        .split("")
-        .filter((letter) => !guess.includes(letter));
-      remainingLetters.forEach((letter) => {
-        const key = document.querySelector(`button[data-letter="${letter}"]`);
-        if (key) key.classList.add("wrong");
-      });
-  
-      // Update the guess display to show the full word in red
-      document.getElementById("guess").innerHTML = word
-        .split("")
-        .map(
-          (letter) =>
-            `<span style="color: ${
-              guess.includes(letter) ? "#0f0" : "#ff0000"
-            }">${letter}</span>`
-        )
-        .join(" ");
-  
-      setTimeout(() => {
-        alert("Game Over! The word was: " + word);
-        endGame();
-      }, 500);
-    } else if (!guess.includes("_")) {
-      // Show winning animation with the word in green
-      document.getElementById("guess").innerHTML = word
-        .split("")
-        .map((letter) => `<span style="color: #0f0" class="winner">${letter}</span>`)
-        .join(" ");
-  
-      setTimeout(() => {
-        alert("Congratulations! You won!");
-        endGame();
-      }, 500);
-    }
+  if (lives === 0) {
+    // Show all remaining letters in red
+    const remainingLetters = word
+      .split("")
+      .filter((letter) => !guess.includes(letter));
+    remainingLetters.forEach((letter) => {
+      const key = document.querySelector(`button[data-letter="${letter}"]`);
+      if (key) key.classList.add("wrong");
+    });
+
+    // Update the guess display to show the full word in red
+    document.getElementById("guess").innerHTML = word
+      .split("")
+      .map(
+        (letter) =>
+          `<span style="color: ${
+            guess.includes(letter) ? "#0f0" : "#ff0000"
+          }">${letter}</span>`
+      )
+      .join(" ");
+
+    setTimeout(() => {
+      alert("Game Over! The word was: " + word);
+      endGame();
+    }, 500);
+  } else if (!guess.includes("_")) {
+    // Show winning animation with the word in green
+    document.getElementById("guess").innerHTML = word
+      .split("")
+      .map(
+        (letter) => `<span style="color: #0f0" class="winner">${letter}</span>`
+      )
+      .join(" ");
+
+    setTimeout(() => {
+      alert("Congratulations! You won!");
+      endGame();
+    }, 500);
   }
+}
 
 function endGame() {
   gamesPlayed++;
@@ -142,6 +153,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-window.onload = () => {
-  getWord();
+window.onload = async () => {
+  await fetchWords(5);
+  startNewGame();
 };
